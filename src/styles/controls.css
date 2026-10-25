@@ -1,0 +1,367 @@
+/* Buttons and form controls. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Disabled controls: dimmed, no hover or press feedback. */
+.btn:disabled,
+.btn[aria-disabled="true"],
+.icon-btn:disabled,
+.task-list__checkbox:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn:disabled:active {
+  transform: none;
+}
+
+.icon-btn:disabled:hover {
+  background: transparent;
+  color: inherit;
+}
+
+.btn--sm {
+  height: 30px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: #05221b;
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+.btn--primary:hover {
+  background: #4ff0c6;
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: var(--border-default);
+  color: var(--text-secondary);
+}
+
+.btn--ghost:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.btn--danger {
+  background: var(--danger);
+  color: #2a070c;
+}
+
+.btn--danger:hover {
+  background: #ff8592;
+}
+
+.btn--danger-ghost {
+  background: transparent;
+  color: var(--danger);
+}
+
+.btn--danger-ghost:hover {
+  background: var(--danger-soft);
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.icon-btn:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.icon-btn--sm {
+  width: 26px;
+  height: 26px;
+}
+
+.icon-btn--danger:hover {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+/* ---------- Fields ---------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* A legend is not a flex item, so the field gap does not apply to it. */
+fieldset.field > legend {
+  margin-bottom: 8px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.field-label {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+
+.field-label__required {
+  color: var(--accent);
+}
+
+.field-label__optional {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.field-input {
+  width: 100%;
+  min-height: 40px;
+  padding: 9px 12px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--bg-app);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 14px;
+  user-select: text;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.field-input::placeholder {
+  color: var(--text-muted);
+}
+
+.field-input:hover {
+  border-color: var(--border-strong);
+}
+
+.field-input:focus,
+.field-input:focus-within {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.field-input.has-error {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px var(--danger-soft);
+}
+
+.field-input--textarea {
+  min-height: 96px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.field-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--danger);
+}
+
+.field-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ---------- Segmented priority control ---------- */
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  /* Same height as the text inputs and date field beside it. */
+  min-height: 40px;
+  padding: 4px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--bg-app);
+}
+
+.segmented__option {
+  position: relative;
+  min-width: 0;
+}
+
+.segmented__option input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.segmented__option > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 6px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.segmented__option--low {
+  --priority-color: var(--accent);
+}
+
+.segmented__option--medium {
+  --priority-color: var(--warning);
+}
+
+.segmented__option--high {
+  --priority-color: var(--danger);
+}
+
+.segmented__option .priority__dot {
+  flex: none;
+  background: var(--priority-color);
+}
+
+.segmented__option:hover > span {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.segmented__option input:checked + span {
+  background: color-mix(in srgb, var(--priority-color) 16%, transparent);
+  color: var(--priority-color);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--priority-color) 40%, transparent);
+}
+
+.segmented__option input:focus-visible + span {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* ---------- Chip-style checkbox options (reminders, weekdays) ---------- */
+.chip-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip-option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 4px 10px;
+  border: 1px solid var(--border-default);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.chip-option input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.chip-option:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text-primary);
+}
+
+.chip-option:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.chip-option.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.schedule-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.due__marker {
+  flex: none;
+  opacity: 0.8;
+}

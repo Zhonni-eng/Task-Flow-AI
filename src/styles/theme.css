@@ -1,0 +1,120 @@
+/* Design tokens and base styles for Taskflow's dark theme. */
+:root {
+  color-scheme: dark;
+
+  --bg-app: #0b0f14;
+  --bg-sidebar: #0e131a;
+  --bg-surface: #121821;
+  --bg-column: #111720;
+  --bg-card: #18202b;
+  --bg-card-hover: #1c2531;
+  --bg-elevated: #1f2935;
+
+  --border-subtle: #1e2732;
+  --border-default: #263140;
+  --border-strong: #33404f;
+
+  --text-primary: #e8edf3;
+  --text-secondary: #a3afbd;
+  --text-muted: #8592a3;
+
+  --accent: #2ee6b6;
+  --accent-strong: #19c99c;
+  --accent-soft: rgba(46, 230, 182, 0.12);
+  --accent-glow: rgba(46, 230, 182, 0.28);
+
+  --danger: #ff6b7a;
+  --danger-soft: rgba(255, 107, 122, 0.12);
+  --warning: #f7b955;
+  --warning-soft: rgba(247, 185, 85, 0.12);
+  --info: #6aa8ff;
+  --info-soft: rgba(106, 168, 255, 0.12);
+  --neutral: #8b98aa;
+  --neutral-soft: rgba(139, 152, 170, 0.12);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 4px 14px rgba(0, 0, 0, 0.18);
+  --shadow-card-hover: 0 2px 4px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.32);
+
+  --font-sans: 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  --font-display: 'Segoe UI Variable Display', 'Segoe UI', system-ui, sans-serif;
+
+  --transition-fast: 140ms ease;
+  --transition: 200ms cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  user-select: none;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--border-strong);
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

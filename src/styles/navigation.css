@@ -1,0 +1,271 @@
+/* Sidebar category navigation, Board/List switcher and category dialogs. */
+.sidebar__nav {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.sidebar__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar__item > .sidebar__link {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar__item.is-active > .sidebar__link {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.sidebar__item.is-active > .sidebar__link::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--accent);
+}
+
+.sidebar__count {
+  margin-left: auto;
+  min-width: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.sidebar__item.is-active .sidebar__count {
+  color: var(--accent);
+}
+
+.sidebar__category-mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--category-color) 20%, transparent);
+  color: var(--category-color);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Rename/delete appear over the count on hover or keyboard focus. */
+.sidebar__item-actions {
+  position: absolute;
+  right: 4px;
+  display: flex;
+  gap: 2px;
+  padding-left: 6px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+}
+
+.sidebar__item:hover .sidebar__item-actions,
+.sidebar__item:focus-within .sidebar__item-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar__item.is-active .sidebar__item-actions {
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-sidebar));
+}
+
+.sidebar__section-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 0 4px;
+}
+
+.sidebar__section-row .sidebar__section {
+  margin: 0 10px;
+}
+
+.sidebar__hint {
+  padding: 4px 10px 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ---------- Board / List switcher ---------- */
+.layout-switch {
+  display: inline-flex;
+  gap: 2px;
+  height: 38px;
+  padding: 3px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+}
+
+.layout-switch__option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.layout-switch__option:hover:not(.is-active) {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.layout-switch__option.is-active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* ---------- Forms and cards ---------- */
+.field-input--select {
+  cursor: pointer;
+}
+
+.field-input--select option,
+.delete-options__select option {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.task-card__category {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  max-width: 150px;
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Ellipsis needs a real element: it does not apply to bare text in a flex container. */
+.task-card__category-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-card__category svg {
+  flex: none;
+}
+
+/* ---------- Category delete dialog ---------- */
+.delete-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 24px 20px;
+  padding: 0;
+  border: 0;
+}
+
+.delete-options__option {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.delete-options__option:has(input:checked) {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: var(--accent-soft);
+  color: var(--text-primary);
+}
+
+.delete-options__option input {
+  accent-color: var(--accent);
+}
+
+.delete-options__select {
+  flex: 1;
+  min-width: 140px;
+  min-height: 32px;
+  height: 32px;
+  padding: 4px 8px;
+  font-size: 13px;
+}
+
+/* ---------- Narrow windows ---------- */
+/* Collapsed sidebar: categories as letter badges; "+" stays available (it opens a dialog),
+   rename/delete are reachable from the header of the selected category. */
+@media (max-width: 960px) {
+  .sidebar__list {
+    align-items: center;
+  }
+
+  .sidebar__count,
+  .sidebar__item-actions,
+  .sidebar__hint {
+    display: none;
+  }
+
+  .sidebar__section-row {
+    justify-content: center;
+    width: 44px;
+    margin: 12px 0 4px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .sidebar__item.is-active > .sidebar__link::before {
+    left: -12px;
+  }
+}
+
+/* Icon-only switcher (names stay in title/aria) so the toolbar keeps to one row longer. */
+@media (max-width: 1500px) {
+  .layout-switch__option {
+    padding: 0 10px;
+  }
+
+  .layout-switch__option span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}

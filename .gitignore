@@ -1,0 +1,36 @@
+node_modules/
+dist/
+release/
+.vitest/
+*.log
+.DS_Store
+
+# Test coverage
+coverage/
+
+# Secrets and signing material (macOS notarization / code signing, provider keys)
+.env
+.env.*
+!.env.example
+*.p12
+*.pfx
+*.pem
+*.key
+*.cer
+*.provisionprofile
+electron-builder.env
+
+# macOS
+._*
+.AppleDouble
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Editors and local tool settings
+.idea/
+.vscode/
+.claude/settings.local.json

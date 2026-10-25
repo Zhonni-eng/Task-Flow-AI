@@ -1,0 +1,337 @@
+/* List View: a compact table of the same tasks shown on the board. */
+.task-list {
+  --list-columns: 36px minmax(160px, 3fr) minmax(90px, 1.1fr) 136px 108px 116px minmax(100px, 1.5fr) 68px;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--bg-column);
+}
+
+.task-list--no-category {
+  --list-columns: 36px minmax(160px, 3fr) 136px 108px 116px minmax(100px, 1.5fr) 68px;
+}
+
+.task-list__row {
+  display: grid;
+  grid-template-columns: var(--list-columns);
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background var(--transition-fast);
+}
+
+.task-list__row:last-child {
+  border-bottom: 0;
+}
+
+.task-list__row:not(.task-list__row--head):hover {
+  background: var(--bg-card);
+}
+
+.task-list__row--head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  min-height: 40px;
+  background: var(--bg-column);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.task-list__title-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.task-list__title {
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-primary);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.task-list__title:hover {
+  color: var(--accent);
+}
+
+.task-list__description {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-list__row.is-done .task-list__title {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+  text-decoration-color: var(--text-muted);
+}
+
+.task-list__category {
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-list__status {
+  --status-color: var(--info);
+  width: 100%;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid color-mix(in srgb, var(--status-color) 40%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--status-color) 10%, var(--bg-app));
+  color: var(--status-color);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.task-list__status--inProgress {
+  --status-color: var(--warning);
+}
+
+.task-list__status--done {
+  --status-color: var(--accent);
+}
+
+.task-list__status option {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.task-list__status:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.task-list__row:not(.task-list__row--head) .task-list__col--due {
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.task-list__labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-height: 46px;
+  overflow: hidden;
+}
+
+.task-list__muted {
+  color: var(--text-muted);
+}
+
+.task-list__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+/* Columns hide based on the list's own width (container queries), so the table always fits
+   whatever the window and sidebar sizes are. Minimum widths per step:
+   all columns ≈ 930px, without labels ≈ 820px, without priority ≈ 690px. */
+@container task-list (max-width: 959px) {
+  .task-list {
+    --list-columns: 36px minmax(160px, 3fr) minmax(90px, 1fr) 136px 108px 116px 64px;
+  }
+
+  .task-list--no-category {
+    --list-columns: 36px minmax(160px, 3fr) 136px 108px 116px 64px;
+  }
+
+  .task-list__col--labels {
+    display: none;
+  }
+}
+
+@container task-list (max-width: 819px) {
+  .task-list {
+    --list-columns: 36px minmax(150px, 3fr) minmax(90px, 1fr) 136px 116px 64px;
+  }
+
+  .task-list--no-category {
+    --list-columns: 36px minmax(150px, 3fr) 136px 116px 64px;
+  }
+
+  .task-list__col--priority {
+    display: none;
+  }
+}
+
+@container task-list (max-width: 689px) {
+  .task-list,
+  .task-list--no-category {
+    --list-columns: 36px minmax(140px, 1fr) 128px 64px;
+  }
+
+  .task-list__col--category,
+  .task-list__col--priority,
+  .task-list__col--due {
+    display: none;
+  }
+}
+
+/* ---------- Selection and bulk actions ---------- */
+.task-list__select {
+  display: grid;
+  place-items: center;
+}
+
+.task-list__checkbox {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.task-list__checkbox:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.task-list__row.is-selected,
+.task-list__row.is-selected:hover {
+  background: var(--accent-soft);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+/* The bulk toolbar floats over the bottom of the list instead of pushing the table down. */
+.list-view {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  margin: 16px 32px 28px;
+  container: task-list / inline-size;
+}
+
+@media (max-width: 1100px) {
+  .list-view {
+    margin-inline: 24px;
+  }
+}
+
+@media (max-width: 760px) {
+  .list-view {
+    margin-inline: 20px;
+  }
+}
+
+.list-view.has-selection .task-list {
+  padding-bottom: 72px;
+}
+
+.bulk-toolbar {
+  position: absolute;
+  left: 50%;
+  bottom: 44px;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: max-content;
+  max-width: calc(100% - 64px);
+  padding: 8px 10px 8px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  transform: translateX(-50%);
+  animation: toast-in 160ms ease;
+}
+
+.bulk-toolbar__count {
+  margin-right: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.bulk-toolbar__select {
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.bulk-toolbar__select:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.bulk-toolbar__select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.bulk-toolbar__select option {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.bulk-toolbar__date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.date-picker__popover--top {
+  top: auto;
+  bottom: calc(100% + 8px);
+  /* Opens leftwards from the trigger so it stays inside narrow windows. */
+  left: auto;
+  right: 0;
+}
+
+@media (max-width: 760px) {
+  .bulk-toolbar {
+    bottom: 28px;
+    max-width: calc(100% - 40px);
+  }
+}
+
+/* Title cell second line: subtask progress + description. */
+.task-list__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.task-list__meta .task-list__description {
+  min-width: 0;
+}
